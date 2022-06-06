@@ -22,10 +22,15 @@ GO
 SELECT CustomerID, COUNT(*) AS [Nº PEDIDOS]  FROM Orders GROUP BY CustomerID
 GO
 --4. ID del cliente, año y número de pedidos que nos ha hecho cada año.
-SELECT
+SELECT CustomerID, YEAR(OrderDate) AS AÑO, COUNT(*) AS [Nº PEDIDOS] FROM Orders GROUP BY CustomerID, YEAR(OrderDate)
+GO
 --5. ID del producto, precio unitario y total facturado de ese producto, ordenado por cantidad facturada de mayor a menor.
 --Si hay varios precios unitarios para el mismo producto tomaremos el mayor.
+SELECT * FROM Products
+GO
 
+SELECT ProductID, UnitPrice, (UnitPrice * UnitsOnOrder) AS [TOTAL FACTURADO] FROM Products ORDER BY [TOTAL FACTURADO] DESC, UnitPrice DESC
+GO
 --6. ID del proveedor e importe total del stock acumulado de productos correspondientes a ese proveedor.
 
 --7. Número de pedidos registrados mes a mes de cada año.
