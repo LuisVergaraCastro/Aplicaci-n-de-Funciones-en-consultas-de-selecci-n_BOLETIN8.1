@@ -32,12 +32,17 @@ GO
 SELECT ProductID, UnitPrice, (UnitPrice * UnitsOnOrder) AS [TOTAL FACTURADO] FROM Products ORDER BY [TOTAL FACTURADO] DESC, UnitPrice DESC
 GO
 --6. ID del proveedor e importe total del stock acumulado de productos correspondientes a ese proveedor.
-
+SELECT SupplierID, SUM(UnitsInStock * UnitPrice) AS [IMPORTE TOTAL] FROM Products GROUP BY SupplierID
+GO
 --7. Número de pedidos registrados mes a mes de cada año.
-
+SELECT COUNT(OrderID) AS [NUMERO DE PEDIDOS], YEAR(OrderDate) AS AÑO, MONTH(OrderDate) AS MES FROM Orders GROUP BY YEAR(OrderDate), MONTH(OrderDate)
+GO
 --8. Año y tiempo medio transcurrido entre la fecha de cada pedido (OrderDate) y la fecha en la que lo hemos enviado (ShipDate),
 --en días para cada año.
-
+SELECT YEAR(OrderDate) AS [AÑO],ISNULL(AVG(DATEDIFF(DAY, OrderDate, ShippedDate)),0) AS [TIEMPO MEDIO EN DIAS] FROM Orders GROUP BY YEAR(OrderDate)
+GO
 --9. ID del distribuidor y número de pedidos enviados a través de ese distribuidor.
-
+SELECT ShipVia, COUNT(*) AS [Nº PEDIDOS] FROM Orders GROUP BY ShipVia
+GO
 --10. ID de cada proveedor y número de productos distintos que nos suministra.
+SELECT SupplierID, COUNT(*) AS[Nº DE PRODUCTOS] FROM Products GROUP BY SupplierID
